@@ -1,0 +1,36 @@
+{
+  "colecciones": {
+    "menu_items": [
+      {
+        "_id": { "$oid": "665abc123def000000000001" },
+        "nombre": "Tacos de Res",
+        "descripcion": "3 tacos de res asada con cebolla, cilantro y salsa",
+        "categoria": "Platillo principal",
+        "precio": 89.00,
+        "imagen_url": "https://restaurante.com/img/tacos-res.jpg",
+        "disponible": true,
+        "ingredientes": ["res", "cebolla", "cilantro", "tortilla"],
+        "alergenos": ["gluten"],
+        "opciones": [
+          { "nombre": "Sin cebolla",   "costo_extra": 0 },
+          { "nombre": "Extra queso",   "costo_extra": 15.00 }
+        ],
+        "tiempo_preparacion_min": 15,
+        "calorias": 450,
+        "tags": ["popular", "picante"],
+        "fecha_creacion": "2025-01-15T10:00:00Z"
+      }
+    ],
+    "mesas": [
+      {
+        "_id": { "$oid": "665def456abc000000000002" },
+        "numero": 5,
+        "capacidad": 4,
+        "ubicacion": "Terraza",
+        "disponible": true,
+        "caracteristicas": ["vista al jardin", "techada"],
+        "activa": true
+      }
+    ]
+  }
+}
