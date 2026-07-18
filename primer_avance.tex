@@ -1,0 +1,605 @@
+\documentclass[12pt,a4paper]{article}
+
+% ── Codificación y lenguaje ──────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,mexico]{babel}
+
+% ── Fuentes ──────────────────────────────────────────────────────────────────
+\usepackage{lmodern}
+
+% ── Márgenes ─────────────────────────────────────────────────────────────────
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
+
+% ── Color ────────────────────────────────────────────────────────────────────
+\usepackage[table]{xcolor}
+\definecolor{rosado}{RGB}{220, 180, 185}
+\definecolor{grisclaro}{RGB}{245, 245, 245}
+\definecolor{grisoscuro}{RGB}{60, 60, 60}
+\definecolor{azul}{RGB}{30, 70, 120}
+\definecolor{verde}{RGB}{39, 130, 80}
+
+% ── Gráficos ─────────────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{calc, positioning, shapes.geometric}
+
+% ── Tablas ───────────────────────────────────────────────────────────────────
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{colortbl}
+
+% ── Código ───────────────────────────────────────────────────────────────────
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{grisclaro},
+  frame=single,
+  rulecolor=\color{azul!50},
+  breaklines=true,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny\color{grisoscuro},
+  xleftmargin=12pt,
+  aboveskip=8pt,
+  belowskip=8pt,
+  language=SQL,
+  keywordstyle=\color{azul}\bfseries,
+  stringstyle=\color{verde},
+  commentstyle=\color{grisoscuro}\itshape,
+}
+
+\lstdefinelanguage{json}{
+  basicstyle=\ttfamily\small,
+  morestring=[b]",
+  morekeywords={true, false, null},
+  keywordstyle=\color{azul}\bfseries,
+  stringstyle=\color{verde},
+}
+
+% ── Encabezados ──────────────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{grisoscuro}AOS --- Primer Avance}
+\fancyhead[R]{\small\color{grisoscuro}Sistema de Reservaciones para Restaurante}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Hipervínculos ────────────────────────────────────────────────────────────
+\usepackage[hidelinks]{hyperref}
+
+% ── Secciones ────────────────────────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{}{0em}{\thesection.\quad}[\vspace{2pt}\hrule\vspace{4pt}]
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\itshape}{\thesubsubsection.}{0.5em}{}
+
+% ── Otros ────────────────────────────────────────────────────────────────────
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf}
+
+% ════════════════════════════════════════════════════════════════════════════
+\begin{document}
+\pagenumbering{gobble}  % Sin número en portada
+
+% ══════════════════════════════════════════════════════
+%  PORTADA — ESTILO UNIVERSIDAD POLITÉCNICA DE PACHUCA
+% ══════════════════════════════════════════════════════
+\begin{titlepage}
+\newgeometry{top=2cm, bottom=2cm, left=3.5cm, right=3.5cm}
+
+% Triángulo decorativo rosa en esquina superior derecha
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[rosado!70]
+    (current page.north east)
+    -- ++(-3.5cm, 0)
+    -- ++(0, -4.5cm)
+    -- cycle;
+\end{tikzpicture}
+
+\vspace*{1.5cm}
+
+% Universidad
+\begin{center}
+  {\small\scshape Universidad Politécnica de Pachuca}
+\end{center}
+
+\vspace{2.5cm}
+
+% Título principal
+\begin{center}
+  {\LARGE\bfseries ARQUITECTURA\\[4pt]
+  ORIENTADA A\\[4pt]
+  SERVICIOS}
+\end{center}
+
+\vspace{1cm}
+
+% Subtítulo
+\begin{center}
+  {\large\bfseries PRIMER AVANCE: SISTEMA DE\\[4pt]
+  RESERVACIONES PARA RESTAURANTE}
+\end{center}
+
+\vspace{2.2cm}
+
+% Datos del proyecto
+\noindent\textbf{DOCENTE:} Jazmín Rodrigues Flores\\[6pt]
+\noindent\textbf{ALUMNOS:}\\[4pt]
+\hspace*{1em} Jovanny Hernández Hernández\\[2pt]
+\hspace*{1em} Cristopher López Suárez\\[6pt]
+\noindent\textbf{ASIGNATURA:} Arquitectura Orientada a Servicios\\[6pt]
+\noindent\textbf{GRUPO:} SFTW\_09\_01\\[6pt]
+\noindent\textbf{FECHA:} Julio de 2026
+
+\vfill
+
+\begin{center}
+  {\small Ingeniería en Software}
+\end{center}
+
+\restoregeometry
+\end{titlepage}
+
+% ── Activar numeración y encabezados desde aquí ──────────────────────────────
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ── ÍNDICE ───────────────────────────────────────────────────────────────────
+\tableofcontents
+\newpage
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Introducción}
+
+El presente documento corresponde al \textbf{Primer Avance} del proyecto
+\textit{Sistema de Reservaciones para Restaurante}, desarrollado en el marco
+de la asignatura \textbf{Arquitectura Orientada a Servicios (AOS)} de la
+carrera de Ingeniería en Software de la Universidad Politécnica de Pachuca.
+
+El objetivo del sistema es digitalizar el proceso de reserva de mesas,
+gestión del catálogo de platillos y atención al cliente en un entorno
+restaurantero, utilizando una arquitectura que combina base de datos
+relacional (MySQL) y base de datos NoSQL (MongoDB).
+
+
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Casos de Uso (CU), Historias de Usuario (HU) y Requisitos}
+
+\subsection{Actores del Sistema}
+
+\begin{center}
+\begin{tabular}{lp{9cm}}
+\toprule
+\rowcolor{grisclaro}
+\textbf{Actor} & \textbf{Descripción} \\
+\midrule
+Cliente       & Usuario que consulta el menú y realiza reservaciones. \\
+Mesero        & Gestiona mesas y consulta las reservaciones del día. \\
+Administrador & Administra el sistema completo: usuarios, menú y reportes. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Casos de Uso Principales}
+
+\begin{center}
+{\small
+\begin{tabular}{clp{6cm}l}
+\toprule
+\rowcolor{grisclaro}
+\textbf{CU\#} & \textbf{Nombre} & \textbf{Descripción} & \textbf{Actor} \\
+\midrule
+CU-01 & Registrar usuario     & El cliente crea una cuenta con nombre, email y contraseña. & Cliente \\
+\rowcolor{grisclaro}
+CU-02 & Iniciar sesión        & Acceso al sistema con credenciales válidas. & Todos \\
+CU-03 & Ver menú              & Consulta de platillos con precios. & Cliente \\
+\rowcolor{grisclaro}
+CU-04 & Realizar reservación  & Selección de fecha, hora, mesa y personas. & Cliente \\
+CU-05 & Cancelar reservación  & Cancelación de una reservación activa. & Cliente \\
+\rowcolor{grisclaro}
+CU-06 & Ver mis reservaciones & Historial de reservaciones del usuario. & Cliente \\
+CU-07 & Gestionar mesas       & Alta, baja y modificación de mesas. & Admin/Mesero \\
+\rowcolor{grisclaro}
+CU-08 & Gestionar menú        & CRUD del catálogo de platillos. & Admin \\
+CU-09 & Ver reservaciones del día & Listado de reservaciones en curso. & Admin/Mesero \\
+\rowcolor{grisclaro}
+CU-10 & Generar reporte       & Reporte de ocupación por fechas. & Admin \\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+\subsection{Historias de Usuario con Puntos de Historia (Story Points)}
+
+\begin{center}
+{\small
+\begin{tabular}{cp{7.5cm}ccc}
+\toprule
+\rowcolor{grisclaro}
+\textbf{HU\#} & \textbf{Historia de Usuario} & \textbf{Prior.} & \textbf{Pts.} & \textbf{Spr.} \\
+\midrule
+HU-01 & \textbf{Como} cliente, \textbf{quiero} registrarme \textbf{para} hacer reservaciones fácilmente. & Alta & 3 & 1 \\
+\rowcolor{grisclaro}
+HU-02 & \textbf{Como} cliente, \textbf{quiero} ver el menú con precios \textbf{para} elegir antes de llegar. & Alta & 5 & 1 \\
+HU-03 & \textbf{Como} cliente, \textbf{quiero} reservar fecha, hora y personas \textbf{para} asegurar mi lugar. & Alta & 8 & 1 \\
+\rowcolor{grisclaro}
+HU-04 & \textbf{Como} cliente, \textbf{quiero} recibir confirmación de mi reservación. & Alta & 3 & 1 \\
+HU-05 & \textbf{Como} cliente, \textbf{quiero} cancelar mi reservación \textbf{para} liberar el lugar. & Media & 5 & 2 \\
+\rowcolor{grisclaro}
+HU-06 & \textbf{Como} cliente, \textbf{quiero} ver mi historial de reservaciones. & Media & 3 & 2 \\
+HU-07 & \textbf{Como} admin, \textbf{quiero} gestionar el menú \textbf{para} mantenerlo actualizado. & Alta & 8 & 2 \\
+\rowcolor{grisclaro}
+HU-08 & \textbf{Como} admin, \textbf{quiero} ver reservaciones del día \textbf{para} organizar al personal. & Media & 5 & 2 \\
+HU-09 & \textbf{Como} mesero, \textbf{quiero} ver el estado de mesas \textbf{para} organizarlas. & Media & 5 & 3 \\
+\rowcolor{grisclaro}
+HU-10 & \textbf{Como} admin, \textbf{quiero} generar reportes de ocupación \textbf{para} tomar decisiones. & Baja & 8 & 3 \\
+\midrule
+\multicolumn{3}{r}{\textbf{Total}} & \textbf{53} & --- \\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+\subsection{Requisitos Funcionales}
+
+\begin{enumerate}[label=\textbf{RF-\arabic*:}, leftmargin=2.8cm]
+  \item El sistema permitirá registrar, editar y eliminar usuarios.
+  \item El sistema permitirá iniciar y cerrar sesión con validación de credenciales.
+  \item El sistema mostrará el catálogo de platillos con nombre, descripción, precio y categoría.
+  \item El sistema permitirá crear reservaciones con fecha, hora, mesa y número de personas.
+  \item El sistema validará que no existan reservaciones duplicadas en la misma mesa y horario.
+  \item El sistema permitirá cancelar reservaciones con al menos 1 hora de anticipación.
+  \item El sistema mostrará el historial de reservaciones por cliente.
+  \item El sistema permitirá al administrador gestionar el menú de productos (CRUD).
+  \item El sistema mostrará un tablero de mesas con disponibilidad en tiempo real.
+  \item El sistema generará reportes de reservaciones filtrados por fecha.
+\end{enumerate}
+
+\subsection{Requisitos No Funcionales}
+
+\begin{enumerate}[label=\textbf{RNF-\arabic*:}, leftmargin=2.8cm]
+  \item El sistema deberá responder en menos de 2 segundos por petición.
+  \item Las contraseñas deberán almacenarse con hash (bcrypt).
+  \item El sistema deberá ser \textit{responsive} (adaptable a móvil y escritorio).
+  \item El sistema deberá estar disponible el 99\% del tiempo durante horario de operación.
+  \item Solo usuarios autenticados podrán realizar reservaciones (JWT).
+  \item El sistema deberá soportar al menos 50 usuarios concurrentes.
+\end{enumerate}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Base de Datos NoSQL --- Catálogo de Productos (MongoDB)}
+
+Se utiliza \textbf{MongoDB} para el catálogo de platillos debido a la naturaleza flexible
+y variable de los datos: un platillo puede tener opciones extras, alérgenos e ingredientes
+variables. Esta estructura dinámica se adapta mejor a documentos JSON que a tablas relacionales rígidas.
+
+\subsection{Colección: \texttt{menu\_items}}
+
+\begin{lstlisting}[language=json, caption={Documento JSON --- Colección menu\_items}]
+{
+  "_id": "ObjectId('665abc123def')",
+  "nombre": "Tacos de Res",
+  "descripcion": "3 tacos de res asada con cebolla, cilantro y salsa",
+  "categoria": "Platillo principal",
+  "precio": 89.00,
+  "imagen_url": "https://restaurante.com/img/tacos-res.jpg",
+  "disponible": true,
+  "ingredientes": ["res", "cebolla", "cilantro", "tortilla"],
+  "alergenos": ["gluten"],
+  "opciones": [
+    { "nombre": "Sin cebolla",   "costo_extra": 0 },
+    { "nombre": "Extra queso",   "costo_extra": 15.00 }
+  ],
+  "tiempo_preparacion_min": 15,
+  "calorias": 450,
+  "tags": ["popular", "picante"],
+  "fecha_creacion": "2025-01-15T10:00:00Z"
+}
+\end{lstlisting}
+
+\subsection{Colección: \texttt{mesas}}
+
+\begin{lstlisting}[language=json, caption={Documento JSON --- Colección mesas}]
+{
+  "_id": "ObjectId('665def456abc')",
+  "numero": 5,
+  "capacidad": 4,
+  "ubicacion": "Terraza",
+  "disponible": true,
+  "caracteristicas": ["vista al jardin", "techada"],
+  "activa": true
+}
+\end{lstlisting}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Base de Datos Relacional --- Esquema Completo (MySQL)}
+
+Se utiliza \textbf{MySQL} para los datos estructurados y críticos del negocio: usuarios,
+reservaciones, estados y reseñas. Estos datos requieren integridad referencial,
+transacciones ACID y relaciones bien definidas entre entidades.
+
+\subsection{Diagrama Entidad-Relación}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  ent/.style={draw, rectangle, rounded corners=3pt, minimum width=2.8cm,
+              minimum height=0.8cm, font=\bfseries\small, fill=grisclaro},
+  rel/.style={draw, diamond, aspect=2, minimum width=2cm,
+              minimum height=0.8cm, font=\small\itshape, fill=white},
+  lbl/.style={font=\footnotesize},
+  node distance=0.8cm and 2.6cm
+]
+  \node[ent] (U)  {USUARIOS};
+  \node[ent] (R)  [right=5cm of U] {RESERVACIONES};
+  \node[ent] (M)  [right=5cm of R] {MESAS};
+  \node[ent] (E)  [below=2cm of R] {ESTADOS};
+  \node[ent] (Re) [below=2cm of U] {RESE\~NAS};
+
+  % Relacion USUARIOS -- RESERVACIONES
+  \node[rel] (hace)    at ($(U)!0.5!(R)$)   {hace};
+  \draw[-] (U) -- node[above,lbl]{1} (hace);
+  \draw[-] (hace) -- node[above,lbl]{N} (R);
+
+  % Relacion RESERVACIONES -- MESAS
+  \node[rel] (asigna)  at ($(R)!0.5!(M)$)   {asigna};
+  \draw[-] (R) -- node[above,lbl]{N} (asigna);
+  \draw[-] (asigna) -- node[above,lbl]{1} (M);
+
+  % Relacion RESERVACIONES -- ESTADOS
+  \draw[-] (R) -- node[right,lbl]{N} (E);
+
+  % Relaciones con RESENAS
+  \draw[dashed,-] (U) -- node[left,lbl]{1} (Re);
+  \draw[dashed,-] (R) -- node[below,lbl]{1} (Re);
+
+\end{tikzpicture}
+\caption{Diagrama Entidad-Relación --- Sistema de Reservaciones}
+\end{figure}
+
+\subsection{Tablas del Esquema}
+
+\subsubsection{Tabla \texttt{usuarios}}
+\begin{lstlisting}[caption={SQL --- Tabla usuarios}]
+CREATE TABLE usuarios (
+    id_usuario     INT PRIMARY KEY AUTO_INCREMENT,
+    nombre         VARCHAR(100) NOT NULL,
+    apellido       VARCHAR(100) NOT NULL,
+    email          VARCHAR(150) UNIQUE NOT NULL,
+    telefono       VARCHAR(15),
+    password_hash  VARCHAR(255) NOT NULL,
+    rol   ENUM('cliente','mesero','admin') DEFAULT 'cliente',
+    activo         BOOLEAN DEFAULT TRUE,
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+\end{lstlisting}
+
+\subsubsection{Tabla \texttt{mesas}}
+\begin{lstlisting}[caption={SQL --- Tabla mesas}]
+CREATE TABLE mesas (
+    id_mesa   INT PRIMARY KEY AUTO_INCREMENT,
+    numero    INT UNIQUE NOT NULL,
+    capacidad INT NOT NULL,
+    ubicacion VARCHAR(100),
+    activa    BOOLEAN DEFAULT TRUE
+);
+\end{lstlisting}
+
+\subsubsection{Tabla \texttt{estados\_reservacion}}
+\begin{lstlisting}[caption={SQL --- Tabla estados\_reservacion}]
+CREATE TABLE estados_reservacion (
+    id_estado INT PRIMARY KEY AUTO_INCREMENT,
+    nombre    VARCHAR(50) NOT NULL
+    -- Valores: Pendiente, Confirmada, Cancelada, Completada
+);
+\end{lstlisting}
+
+\subsubsection{Tabla \texttt{reservaciones}}
+\begin{lstlisting}[caption={SQL --- Tabla reservaciones (tabla central)}]
+CREATE TABLE reservaciones (
+    id_reservacion INT PRIMARY KEY AUTO_INCREMENT,
+    id_usuario     INT NOT NULL,
+    id_mesa        INT NOT NULL,
+    id_estado      INT NOT NULL DEFAULT 1,
+    fecha          DATE NOT NULL,
+    hora_inicio    TIME NOT NULL,
+    hora_fin       TIME NOT NULL,
+    num_personas   INT NOT NULL,
+    notas          TEXT,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_mesa)    REFERENCES mesas(id_mesa),
+    FOREIGN KEY (id_estado)  REFERENCES estados_reservacion(id_estado),
+    CONSTRAINT chk_horario CHECK (hora_fin > hora_inicio),
+    UNIQUE KEY uk_mesa_fecha_hora (id_mesa, fecha, hora_inicio)
+);
+\end{lstlisting}
+
+\subsubsection{Tabla \texttt{resenas}}
+\begin{lstlisting}[caption={SQL --- Tabla resenas}]
+CREATE TABLE resenas (
+    id_resena      INT PRIMARY KEY AUTO_INCREMENT,
+    id_usuario     INT NOT NULL,
+    id_reservacion INT NOT NULL,
+    calificacion   TINYINT NOT NULL CHECK (calificacion BETWEEN 1 AND 5),
+    comentario     TEXT,
+    fecha          DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario)     REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_reservacion) REFERENCES reservaciones(id_reservacion)
+);
+\end{lstlisting}
+
+\subsubsection{Tabla \texttt{menu\_relacional} (referencia a MongoDB)}
+\begin{lstlisting}[caption={SQL --- Tabla menu\_relacional}]
+CREATE TABLE menu_relacional (
+    id_item    INT PRIMARY KEY AUTO_INCREMENT,
+    mongo_id   VARCHAR(50) UNIQUE,   -- Referencia al _id de MongoDB
+    nombre     VARCHAR(150) NOT NULL,
+    categoria  VARCHAR(100),
+    precio     DECIMAL(10,2) NOT NULL,
+    disponible BOOLEAN DEFAULT TRUE
+);
+\end{lstlisting}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Metodología --- Scrum}
+
+
+
+\subsection{Product Backlog con HUs Valoradas}
+
+\begin{center}
+{\small
+\begin{tabular}{cp{7cm}ccc}
+\toprule
+\rowcolor{grisclaro}
+\textbf{HU\#} & \textbf{Historia de Usuario} & \textbf{Prior.} & \textbf{Pts.} & \textbf{Spr.} \\
+\midrule
+HU-01 & Registrar usuario              & Alta  & 3  & 1 \\
+\rowcolor{grisclaro}
+HU-02 & Ver menú con precios           & Alta  & 5  & 1 \\
+HU-03 & Realizar reservación           & Alta  & 8  & 1 \\
+\rowcolor{grisclaro}
+HU-04 & Recibir confirmación           & Alta  & 3  & 1 \\
+HU-05 & Cancelar reservación           & Media & 5  & 2 \\
+\rowcolor{grisclaro}
+HU-06 & Ver historial de reservaciones & Media & 3  & 2 \\
+HU-07 & Gestionar menú (Admin)         & Alta  & 8  & 2 \\
+\rowcolor{grisclaro}
+HU-08 & Ver reservaciones del día      & Media & 5  & 2 \\
+HU-09 & Tablero de estado de mesas     & Media & 5  & 3 \\
+\rowcolor{grisclaro}
+HU-10 & Generar reportes de ocupación  & Baja  & 8  & 3 \\
+\midrule
+\multicolumn{3}{r}{\textbf{Total}} & \textbf{53} & --- \\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+\subsection{Planificación de Sprints}
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+\rowcolor{grisclaro}
+\textbf{Sprint} & \textbf{Duración} & \textbf{HUs} & \textbf{Puntos} \\
+\midrule
+Sprint 1 & 1 semana & HU-01, HU-02, HU-04            & 11 pts \\
+Sprint 2 & 1 semana & HU-03                           &  8 pts \\
+Sprint 3 & 1 semana & HU-05, HU-06, HU-08             & 13 pts \\
+Sprint 4 & 1 semana & HU-07, HU-09                    & 13 pts \\
+Sprint 5 & 1 semana & HU-10                           &  8 pts \\
+\midrule
+\multicolumn{3}{r}{\textbf{Total}} & \textbf{53 pts} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Gráfica de Quemado (Burndown Chart)}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=13cm, height=7cm,
+  xlabel={\textbf{Semanas}},
+  ylabel={\textbf{Puntos Restantes}},
+  xmin=0, xmax=5,
+  ymin=0, ymax=58,
+  xtick={0,1,2,3,4,5},
+  xticklabels={Inicio, Sem.1, Sem.2, Sem.3, Sem.4, Sem.5},
+  ytick={0,10,20,30,40,50,53},
+  grid=both,
+  grid style={dotted, gray!40},
+  legend pos=north east,
+  title={\textbf{Burndown Chart --- Sistema de Reservaciones}},
+]
+% Línea ideal
+\addplot[blue!70!black, thick, dashed, mark=square*,
+         mark options={fill=blue!70!black}]
+  coordinates {(0,53)(1,42)(2,32)(3,21)(4,11)(5,0)};
+\addlegendentry{Quemado ideal}
+
+% Punto de inicio real
+\addplot[red!70!black, thick, mark=*, mark options={fill=red!70!black}]
+  coordinates {(0,53)};
+\addlegendentry{Quemado real}
+
+% Líneas divisoras de sprint (cada semana es un sprint)
+\draw[dashed, gray] (axis cs:1,0) -- (axis cs:1,55);
+\draw[dashed, gray] (axis cs:2,0) -- (axis cs:2,55);
+\draw[dashed, gray] (axis cs:3,0) -- (axis cs:3,55);
+\draw[dashed, gray] (axis cs:4,0) -- (axis cs:4,55);
+\node[font=\footnotesize] at (axis cs:0.5,56) {S1};
+\node[font=\footnotesize] at (axis cs:1.5,56) {S2};
+\node[font=\footnotesize] at (axis cs:2.5,56) {S3};
+\node[font=\footnotesize] at (axis cs:3.5,56) {S4};
+\node[font=\footnotesize] at (axis cs:4.5,56) {S5};
+\end{axis}
+\end{tikzpicture}
+\caption{Gráfica de Quemado --- Velocidad ideal por sprint (53 puntos / 5 semanas)}
+\end{figure}
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+\rowcolor{grisclaro}
+\textbf{Semana} & \textbf{Puntos Ideales Restantes} & \textbf{Puntos Reales Restantes} \\
+\midrule
+0 (Inicio) & 53 & 53 \\
+1 (Fin S1) & 42 & --- \\
+2 (Fin S2) & 32 & --- \\
+3 (Fin S3) & 21 & --- \\
+4 (Fin S4) & 11 & --- \\
+5 (Fin S5) &  0 & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Herramientas del Proyecto}
+
+\begin{center}
+{\small
+\begin{tabular}{llp{6cm}}
+\toprule
+\rowcolor{grisclaro}
+\textbf{Herramienta} & \textbf{Uso} & \textbf{Descripción} \\
+\midrule
+GitHub        & Control de versiones & Repositorio del código fuente. \\
+Trello        & Gestión ágil         & Tablero Scrum: Backlog / En progreso / Hecho. \\
+Google Drive  & Documentación        & Archivos y documentos compartidos. \\
+MongoDB Atlas & BD NoSQL             & Catálogo de platillos (menú). \\
+MySQL         & BD Relacional        & Usuarios, mesas y reservaciones. \\
+Docker        & Contenedores         & Entorno de desarrollo consistente. \\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Conclusiones}
+
+En este Primer Avance se establecieron las bases del \textbf{Sistema de Reservaciones
+para Restaurante}, cubriendo los siguientes entregables:
+
+\begin{itemize}[label={$\bullet$}]
+  \item Definición de actores, 10 Casos de Uso y 10 Historias de Usuario valoradas bajo el marco Scrum.
+  \item Levantamiento de 10 requisitos funcionales y 6 no funcionales del sistema.
+  \item Diseño de BD NoSQL (MongoDB) para el catálogo de productos con estructura flexible.
+  \item Diseño completo de BD Relacional (MySQL) con integridad referencial y constraints.
+  \item Planificación de la metodología Scrum: Product Backlog, 5 sprints y Burndown Chart.
+  \item Identificación del stack tecnológico y herramientas de trabajo colaborativo.
+\end{itemize}
+
+El proyecto tiene una duración estimada de \textbf{5 semanas} en 5 sprints de 1 semana cada uno,
+con un total de \textbf{53 puntos de historia}, desarrollado por
+\textbf{Jovanny Hernández Hernández} y \textbf{Cristopher López Suárez}.
+
+\end{document}
